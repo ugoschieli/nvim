@@ -65,7 +65,7 @@ local plugins = {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'lua', 'haskell' },
+      ensure_installed = { 'lua', 'haskell', 'c' },
       highlight = {
         enable = true,
       },
@@ -128,6 +128,10 @@ local plugins = {
       }
 
       lspconfig.hls.setup {
+        on_attach = on_attach,
+      }
+
+      lspconfig.clangd.setup {
         on_attach = on_attach,
       }
     end,
