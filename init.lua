@@ -65,7 +65,7 @@ local plugins = {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'lua' },
+      ensure_installed = { 'lua', 'haskell' },
       highlight = {
         enable = true,
       },
@@ -94,6 +94,7 @@ local plugins = {
     opts = {},
     config = function(_, opts)
       local lspconfig = require 'lspconfig'
+
       lspconfig.lua_ls.setup {
         settings = {
           Lua = {
@@ -103,6 +104,8 @@ local plugins = {
           },
         },
       }
+
+      lspconfig.hls.setup {}
     end,
   },
   {
