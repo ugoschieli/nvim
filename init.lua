@@ -65,7 +65,7 @@ local plugins = {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'lua', 'haskell', 'c' },
+      ensure_installed = 'all',
       highlight = {
         enable = true,
       },
