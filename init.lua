@@ -111,9 +111,6 @@ local plugins = {
         vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
         vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, bufopts)
         vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-        vim.keymap.set('n', '<space>f', function()
-          vim.lsp.buf.format { async = true }
-        end, bufopts)
       end
 
       lspconfig.lua_ls.setup {
@@ -137,10 +134,25 @@ local plugins = {
     end,
   },
   {
-    "utilyre/barbecue.nvim",
+    'mhartington/formatter.nvim',
+    config = function()
+      require('formatter').setup {
+        filetype = {
+          lua = {
+            require('formatter.filetypes.lua').stylua,
+          },
+        },
+      }
+    end,
+    keys = {
+      { '<leader>f', '<Cmd>FormatWrite<CR>', 'n' },
+    },
+  },
+  {
+    'utilyre/barbecue.nvim',
     dependencies = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons",
+      'SmiteshP/nvim-navic',
+      'nvim-tree/nvim-web-devicons',
     },
     opts = {},
   },
@@ -167,6 +179,36 @@ local plugins = {
         end
       end,
     },
+    keys = {
+      {
+        '<C-h>',
+        function()
+          require('smart-splits').move_cursor_left()
+        end,
+        'n',
+      },
+      {
+        '<C-j>',
+        function()
+          require('smart-splits').move_cursor_down()
+        end,
+        'n',
+      },
+      {
+        '<C-k>',
+        function()
+          require('smart-splits').move_cursor_up()
+        end,
+        'n',
+      },
+      {
+        '<C-l>',
+        function()
+          require('smart-splits').move_cursor_right()
+        end,
+        'n',
+      },
+    },
   },
   {
     'numToStr/Comment.nvim',
@@ -177,11 +219,6 @@ local plugins = {
 require('lazy').setup(plugins, lazy_opts)
 
 -- KEYBINDINGS
-
-vim.keymap.set('n', '<C-h>', require('smart-splits').move_cursor_left)
-vim.keymap.set('n', '<C-j>', require('smart-splits').move_cursor_down)
-vim.keymap.set('n', '<C-k>', require('smart-splits').move_cursor_up)
-vim.keymap.set('n', '<C-l>', require('smart-splits').move_cursor_right)
 
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
