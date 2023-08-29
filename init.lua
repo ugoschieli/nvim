@@ -90,6 +90,7 @@ local plugins = {
         'folke/neodev.nvim',
         opts = {},
       },
+      { 'hrsh7th/cmp-nvim-lsp' },
     },
     opts = {},
     config = function(_, opts)
@@ -113,7 +114,10 @@ local plugins = {
         vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
       end
 
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
       lspconfig.lua_ls.setup {
+        capabilities = capabilities,
         on_attach = on_attach,
         settings = {
           Lua = {
@@ -125,11 +129,72 @@ local plugins = {
       }
 
       lspconfig.hls.setup {
+        capabilities = capabilities,
         on_attach = on_attach,
       }
 
       lspconfig.clangd.setup {
+        capabilities = capabilities,
         on_attach = on_attach,
+      }
+    end,
+  },
+  {
+    'hrsh7th/nvim-cmp',
+    dependencies = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
+      'saadparwaiz1/cmp_luasnip',
+      'L3MON4D3/LuaSnip',
+    },
+    config = function(_, _)
+      local cmp = require 'cmp'
+      local luasnip = require 'luasnip'
+
+      local has_words_before = function()
+        unpack = unpack or table.unpack
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match '%s' == nil
+      end
+
+      cmp.setup {
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
+        mapping = cmp.mapping.preset.insert {
+          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-n>'] = cmp.mapping.scroll_docs(4),
+          ['<C-Space>'] = cmp.mapping.complete(),
+          ['<C-e>'] = cmp.mapping.abort(),
+          ['<CR>'] = cmp.mapping.confirm {select = true},
+          ['<Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif luasnip.expand_or_locally_jumpable() then
+              luasnip.expand_or_jump()
+            elseif has_words_before() then
+              cmp.complete()
+            else
+              fallback()
+            end
+          end, { 'i', 's' }),
+          ['<S-Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            elseif luasnip.locally_jumpable(-1) then
+              luasnip.jump(-1)
+            else
+              fallback()
+            end
+          end, { 'i', 's' }),
+        },
+        sources = cmp.config.sources {
+          { name = 'nvim_lsp' },
+          { name = 'luasnip' },
+          { name = 'nvim_lsp_signature_help' },
+        },
       }
     end,
   },
@@ -181,50 +246,6 @@ local plugins = {
       options = {
         component_separators = '|',
         section_separators = '',
-      },
-    },
-  },
-  {
-    'mrjones2014/smart-splits.nvim',
-    opts = {
-      at_edge = function(context)
-        local ss = require 'smart-splits'
-        context.split()
-        if context.direction == 'right' then
-          ss.move_cursor_right()
-        elseif context.direction == 'down' then
-          ss.move_cursor_down()
-        end
-      end,
-    },
-    keys = {
-      {
-        '<C-h>',
-        function()
-          require('smart-splits').move_cursor_left()
-        end,
-        'n',
-      },
-      {
-        '<C-j>',
-        function()
-          require('smart-splits').move_cursor_down()
-        end,
-        'n',
-      },
-      {
-        '<C-k>',
-        function()
-          require('smart-splits').move_cursor_up()
-        end,
-        'n',
-      },
-      {
-        '<C-l>',
-        function()
-          require('smart-splits').move_cursor_right()
-        end,
-        'n',
       },
     },
   },
