@@ -63,6 +63,7 @@ local plugins = {
   },
   {
     'nvim-treesitter/nvim-treesitter',
+    dependencies = { 'windwp/nvim-ts-autotag' },
     build = ':TSUpdate',
     opts = {
       ensure_installed = 'all',
@@ -77,6 +78,9 @@ local plugins = {
           scope_incremental = 'grc',
           node_decremental = 'gr,',
         },
+      },
+      autotag = {
+        enable = true,
       },
     },
     config = function(_, opts)
@@ -124,6 +128,9 @@ local plugins = {
             workspace = {
               checkThirdParty = false,
             },
+            completion = {
+              callSnippet = 'Replace',
+            },
           },
         },
       }
@@ -137,7 +144,15 @@ local plugins = {
         capabilities = capabilities,
         on_attach = on_attach,
       }
+
+      local html_capabilities = capabilities
+      html_capabilities.textDocument.completion.completionItem.snippetSupport = true
+      lspconfig.html.setup {
+        capabilities = html_capabilities,
+        on_attach = on_attach,
+      }
     end,
+
   },
   {
     'hrsh7th/nvim-cmp',
@@ -150,6 +165,7 @@ local plugins = {
     config = function(_, _)
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
+      local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
 
       local has_words_before = function()
         unpack = unpack or table.unpack
@@ -196,6 +212,8 @@ local plugins = {
           { name = 'nvim_lsp_signature_help' },
         },
       }
+
+      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
     end,
   },
   {
@@ -255,6 +273,11 @@ local plugins = {
   },
   {
     'lewis6991/gitsigns.nvim',
+    opts = {},
+  },
+  {
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
     opts = {},
   },
 }
