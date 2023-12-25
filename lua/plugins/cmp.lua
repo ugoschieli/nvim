@@ -9,7 +9,9 @@ return {
       'hrsh7th/cmp-cmdline',
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
+      'zbirenbaum/copilot-cmp',
     },
+    event = 'InsertEnter',
     config = function(_, _)
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
@@ -38,7 +40,6 @@ return {
               fallback()
             end
           end, { 'i', 's' }),
-
           ['<S-Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
