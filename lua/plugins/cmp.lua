@@ -10,6 +10,7 @@ return {
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
       'zbirenbaum/copilot-cmp',
+      'onsails/lspkind-nvim',
     },
     event = 'InsertEnter',
     config = function(_, _)
@@ -64,6 +65,11 @@ return {
         }),
         experimental = {
           ghost_text = true,
+        },
+        formatting = {
+          format = require('lspkind').cmp_format {
+            symbol_map = { Copilot = '' },
+          },
         },
       }
 
