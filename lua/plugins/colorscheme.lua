@@ -1,4 +1,14 @@
+-- return {
+--   'folke/tokyonight.nvim',
+--   config = function() vim.cmd.colorscheme 'tokyonight' end,
+-- }
+
 return {
-  'folke/tokyonight.nvim',
-  config = function() vim.cmd.colorscheme 'tokyonight' end,
+  'scottmckendry/cyberdream.nvim',
+  config = function()
+    require('cyberdream').setup {
+      transparent = true,
+    }
+    vim.cmd.colorscheme 'cyberdream'
+  end,
 }

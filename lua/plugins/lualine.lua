@@ -4,7 +4,29 @@ return {
   event = 'VeryLazy',
   opts = {
     sections = {
-      lualine_a = { 'mode' },
+      lualine_a = {
+        {
+          'mode',
+          icons_enabled = true,
+          fmt = function()
+            local mode_map = {
+              n = '(ᴗ_ ᴗ。)',
+              nt = '(ᴗ_ ᴗ。)',
+              i = '(•̀ - •́ )',
+              R = '( •̯́ ₃ •̯̀)',
+              v = '(⊙ _ ⊙ )',
+              V = '(⊙ _ ⊙ )',
+              no = 'Σ(°△°ꪱꪱꪱ)',
+              ['\22'] = '(⊙ _ ⊙ )',
+              t = '(⌐■_■)',
+              ['!'] = 'Σ(°△°ꪱꪱꪱ)',
+              c = 'Σ(°△°ꪱꪱꪱ)',
+              s = 'SUB',
+            }
+            return mode_map[vim.api.nvim_get_mode().mode] or vim.api.nvim_get_mode().mode
+          end,
+        },
+      },
       lualine_b = { 'branch', 'diff', 'diagnostics' },
       lualine_c = { 'filename' },
       lualine_y = { 'progress' },

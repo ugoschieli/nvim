@@ -14,6 +14,8 @@ return {
     local cmp = require 'cmp'
     local luasnip = require 'luasnip'
 
+    vim.o.pumheight = 10
+
     cmp.setup {
       snippet = {
         expand = function(args) luasnip.lsp_expand(args.body) end,

@@ -13,6 +13,10 @@ return {
       local lspconfig = require 'lspconfig'
       local keymaps = require 'core.keymaps'
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      local handlers = {
+        ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded' }),
+        ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' }),
+      }
 
       require('mason').setup()
       require('mason-lspconfig').setup {
@@ -25,13 +29,9 @@ return {
           require('lspconfig')[server_name].setup {
             on_attach = keymaps.on_attach,
             capabilities = capabilities,
+            handlers = handlers,
           }
         end,
-      }
-
-      lspconfig.hls.setup {
-        on_attach = keymaps.on_attach,
-        capabilities = capabilities,
       }
     end,
   },
