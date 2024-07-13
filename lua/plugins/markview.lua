@@ -1,6 +1,6 @@
 return {
   'OXY2DEV/markview.nvim',
-  dependencies = { 'nvim-tree/nvim-web-devicons' },
+  dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
   ft = 'markdown',
   opts = {},
 }

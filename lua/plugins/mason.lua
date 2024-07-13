@@ -10,7 +10,6 @@ return {
     },
     lazy = false,
     config = function()
-      local lspconfig = require 'lspconfig'
       local keymaps = require 'core.keymaps'
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
       local handlers = {

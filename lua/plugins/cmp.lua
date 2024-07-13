@@ -10,7 +10,7 @@ return {
     'onsails/lspkind.nvim',
   },
   event = { 'InsertEnter', 'CmdlineEnter' },
-  config = function(_, opts)
+  config = function()
     local cmp = require 'cmp'
     local luasnip = require 'luasnip'
 
@@ -68,6 +68,7 @@ return {
         },
         { name = 'nvim_lsp' },
       }, {
+        { name = 'path' },
         { name = 'buffer' },
       }),
       formatting = {

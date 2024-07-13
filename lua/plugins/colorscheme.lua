@@ -5,10 +5,11 @@
 
 return {
   'scottmckendry/cyberdream.nvim',
-  config = function()
-    require('cyberdream').setup {
-      transparent = true,
-    }
+  opts = {
+    transparent = true,
+  },
+  config = function(_, opts)
+    require('cyberdream').setup(opts)
     vim.cmd.colorscheme 'cyberdream'
   end,
 }

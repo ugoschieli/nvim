@@ -1,5 +1,4 @@
 return {
-  'j-hui/fidget.nvim',
+  'HiPhish/rainbow-delimiters.nvim',
   event = { 'VeryLazy' },
-  opts = {},
 }
